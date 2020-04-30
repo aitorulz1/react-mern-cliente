@@ -1,5 +1,5 @@
-
-import { FORMULARIO_PROYECTO } from '../../types'
+import React from 'react'
+import { FORMULARIO_PROYECTO, OBTENER_PROYECTOS } from '../../types'
 
 
 export default (state, action) => {
@@ -9,6 +9,11 @@ export default (state, action) => {
             return{
                 ...state,
                 formulario: true
+            }
+        case OBTENER_PROYECTOS:
+            return{
+                ...state,
+                proyectos: action.payload
             }
 
         default:
