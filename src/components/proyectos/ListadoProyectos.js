@@ -1,15 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import proyectoContext from '../../context/proyectos/proyectoContext'
 
 import Proyecto from './Proyecto'
 
 const ListadoProyectos = () => {
 
-    const proyectos = [
-        { id: '01', nombre: 'proyecto 01' },
-        { id: '02', nombre: 'proyecto 02' },
-        { id: '03', nombre: 'proyecto 03' },
-        { id: '04', nombre: 'proyecto 04' },
-    ]
+    // Obtener el state del formulario y Destructuring de formulario desde Context
+    const proyectosContext = useContext(proyectoContext); 
+    const { proyectos } = proyectosContext;
 
     return ( 
         <ul className="Listado-proyectos">
