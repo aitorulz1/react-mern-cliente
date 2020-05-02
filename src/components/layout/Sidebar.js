@@ -7,7 +7,7 @@ const Sidebar = () => {
     return ( 
         <aside>
 
-            <h1>MERN<span>Tasks</span></h1>
+            <h1>MERN<span>Taskss</span></h1>
 
             <NuevoProyecto />
 
