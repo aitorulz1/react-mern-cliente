@@ -2,7 +2,8 @@ import React from 'react'
 import { 
     FORMULARIO_PROYECTO, 
     OBTENER_PROYECTOS, 
-    AGREGAR_PROYECTO  
+    AGREGAR_PROYECTO,  
+    VALIDAR_FORMULARIO
 } from '../../types'
 
 
@@ -24,6 +25,11 @@ export default (state, action) => {
                 ...state,
                 proyectos: [...state.proyectos, action.payload],
                 formulario: false
+            }
+        case VALIDAR_FORMULARIO:
+            return{
+                ...state,
+                errorformulario: true
             }
 
         default:
