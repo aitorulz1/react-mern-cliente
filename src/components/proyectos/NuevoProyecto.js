@@ -32,6 +32,7 @@ const NuevoProyecto = () => {
         }
 
         agregarProyecto(proyecto)
+        guardarProyecto('')
     }
 
     // Mostrar Formulario
