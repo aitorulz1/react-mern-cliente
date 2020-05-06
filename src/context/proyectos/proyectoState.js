@@ -32,7 +32,7 @@ const ProyectoState = props => {
 
     // Dispatch para ejecutar las acciones
 
-    const  [ state, dispatch ] = useReducer( proyectoReducer, initialState)
+    const  [ state, dispatch ] = useReducer( proyectoReducer, initialState);
 
 
     // Funciones para el CRUD
@@ -69,10 +69,10 @@ const ProyectoState = props => {
     }
 
     // Seleecionamos el proyecto que el usuario ha hecho click. Trae de proyecto el valor de un proyecto.id, Ej: 3. La función va filtrar el proyecto.id q sea igal al q le pase la función.
-    const proyectoActual = caca => {
+    const proyectoActual = proyectoId => {
         dispatch({
             type: PROYECTO_ACTUAL,
-            payload: caca
+            payload: proyectoId
         })
     }
 
