@@ -39,7 +39,7 @@ const TareaState = props => {
 
     // Crear las funciones
     
-     // Obtener las tareas de un proyecto
+     // Obtener las tareas de un proyecto por su ID
      const obtenerTareas = proyectoId => {
          dispatch({
             type: TAREAS_PROYECTO,
@@ -56,7 +56,8 @@ const TareaState = props => {
          })
      }
 
-     const validarTarea = tarea => {
+    // Valida y muestra un error en caso de ser necesario
+     const validarTarea = () => {
          dispatch({
              type: VALIDAR_TAREA
          })
@@ -69,7 +70,8 @@ const TareaState = props => {
                 tareasproyecto: state.tareasproyecto,
                 errortarea: state.errortarea,
                 obtenerTareas,
-                agregarTarea
+                agregarTarea,
+                validarTarea
             }}
         >
             {props.children}

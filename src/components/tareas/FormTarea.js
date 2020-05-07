@@ -12,7 +12,7 @@ const FormTarea = () => {
          const { proyecto } = proyectosContext;
 
          const tareasContext = useContext(tareaContext);
-         const { agregarTarea } = tareasContext;
+         const { agregarTarea, errortarea, obtenerTareas, validarTarea } = tareasContext;
 
 
          // creo la const tarea
@@ -45,9 +45,13 @@ const FormTarea = () => {
 
 
             // Validar
-
+            if( nombre.trim() === '') {
+                validarTarea();
+                return;
+            }
 
             // Pasar la validación
+            // validarTarea(false) es correctísimo, pero puedo cambiarlo en reducer a alse una vez haya agregado tarea
 
 
             // Agregar la nueva tarea al state de tareas
@@ -55,9 +59,15 @@ const FormTarea = () => {
             tarea.estado = false;
             agregarTarea(tarea);
 
+            
+            // Pintar ahora las tareas que había + la nueva
+            obtenerTareas(proyectoActual.id)
+
 
             // Reiniciar el form
-            guardarTarea('');
+            guardarTarea({
+                nombre: ''
+            });
 
         }
 
@@ -87,8 +97,9 @@ const FormTarea = () => {
                         />
                     </div>
 
-
                 </form>
+
+                {errortarea ? <p className='mensaje error'>Debes de Agregar un Nombre</p> : null}                
                 
         </div>
      );
