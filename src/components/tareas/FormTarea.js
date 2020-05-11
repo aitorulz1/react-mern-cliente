@@ -1,8 +1,8 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 
 import proyectoContext from '../../context/proyectos/proyectoContext';
 import tareaContext from '../../context/tareas/tareaContext';
-import { AGREGAR_TAREA } from '../../types';
+
 
 const FormTarea = () => {
 
@@ -12,8 +12,18 @@ const FormTarea = () => {
          const { proyecto } = proyectosContext;
 
          const tareasContext = useContext(tareaContext);
-         const { agregarTarea, errortarea, obtenerTareas, validarTarea } = tareasContext;
+         const { tareaseleccionada, agregarTarea, errortarea, obtenerTareas, validarTarea, actualizarTarea } = tareasContext;
 
+         // Effect detecta si hay una tarea seleccionada
+         useEffect(() => {
+            if(tareaseleccionada !== null) {
+                guardarTarea(tareaseleccionada)
+            } else {
+                guardarTarea({
+                    nombre: ''
+                })
+            }
+        }, [tareaseleccionada]) // Aquí debo pasarle la tarea seleccionada para que se pinte en el input
 
          // creo la const tarea
 
@@ -22,6 +32,8 @@ const FormTarea = () => {
          });
 
          const { nombre } = tarea;
+
+         
 
 
          // Si no hay proyecto seleccionado
@@ -50,19 +62,22 @@ const FormTarea = () => {
                 return;
             }
 
-            // Pasar la validación
-            // validarTarea(false) es correctísimo, pero puedo cambiarlo en reducer a alse una vez haya agregado tarea
+            // Si es edición o si es Nueva Tarea
+            if(tareaseleccionada === null) {
 
-
-            // Agregar la nueva tarea al state de tareas
-            tarea.proyectoId = proyectoActual.id;
-            tarea.estado = false;
-            agregarTarea(tarea);
+                // Agregar la nueva tarea al state de tareas
+                tarea.proyectoId = proyectoActual.id;
+                tarea.estado = false;
+                agregarTarea(tarea);
+            }else {
+                // Actualiza tarea existente
+                actualizarTarea(tarea);
+            }
 
             
             // Pintar ahora las tareas que había + la nueva
             obtenerTareas(proyectoActual.id)
-
+            
 
             // Reiniciar el form
             guardarTarea({
@@ -93,7 +108,7 @@ const FormTarea = () => {
                         <input 
                             type='submit'
                             className='btn btn-primario btn-submit btn-block'
-                            value='Agregar Tarea'
+                            value= {tareaseleccionada ? 'Editar Tarea' : 'Agregar Tarea'}
                         />
                     </div>
 

@@ -6,7 +6,7 @@ import tareaContext from '../../context/tareas/tareaContext';
 
 
 
-const Proyecto = ({proyecto}) => {
+const Proyecto = ({ proyecto }) => {
 
         // Obtener el state de proyectos
         const proyectosContext = useContext(proyectoContext);

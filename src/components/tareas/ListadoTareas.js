@@ -14,13 +14,13 @@ const  ListadoTareas = () => {
     const { proyecto, eliminarProyecto } = proyectosContext;
 
     const tareasContext = useContext(tareaContext);
-    const { tareasproyecto, agregarTareas } = tareasContext;
+    const { tareasproyecto  } = tareasContext;
 
     // Si no hay proyecto seleccionado
     if(!proyecto) return <h1>Selecciona un Proyecto</h1>;
 
     //Array destructuring para extraer el proyecto actual
-    const [proyectoActual] = proyecto;
+    const [ proyectoActual ] = proyecto;
 
 
 
@@ -38,7 +38,8 @@ const  ListadoTareas = () => {
                     null
                     :
                     tareasproyecto.map(tarea => (
-                        <Tarea                            
+                        <Tarea     
+                            key = {tarea.id}                       
                             tarea = {tarea}
                         />
                     ))

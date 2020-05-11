@@ -1,6 +1,37 @@
-import React from 'react';
+import React, { useContext } from 'react';
+
+import proyectoContext from '../../context/proyectos/proyectoContext';
+import tareaContext from '../../context/tareas/tareaContext'
 
 const Tarea = ({tarea}) => {
+
+    const proyectosContext = useContext(proyectoContext);
+    const { proyecto } = proyectosContext;
+
+    const [ proyectoActual ] = proyecto;
+
+    const tareasContext = useContext(tareaContext);
+    const { eliminarTarea, obtenerTareas, cambiarEstadoTarea, guardarTareaActual } = tareasContext;
+
+    const tareaEliminar = id => {
+        eliminarTarea(id);
+        obtenerTareas( proyectoActual.id);
+    }
+
+    const cambiarEstado = tarea => {
+        if(tarea.estado){
+            tarea.estado = false;
+        } else {
+            tarea.estado = true;
+        }
+        cambiarEstadoTarea(tarea);
+    }
+
+    const seleccionarTarea = tarea => {
+        guardarTareaActual(tarea)
+    }
+
+
     return ( 
         <li className='tarea sombra'>
             <p>{tarea.nombre}</p>
@@ -12,13 +43,15 @@ const Tarea = ({tarea}) => {
                     <button
                         type='button'
                         className='completo'
-                    >Complet</button>
+                        onClick= {() => cambiarEstado(tarea)}
+                    >Completo</button>
                 )
                 :
                 (
                     <button
                         type='button'
                         className='incompleto'
+                        onClick= {() => cambiarEstado(tarea)}
                     >Incompleto</button>
                 )
                 }
@@ -28,6 +61,8 @@ const Tarea = ({tarea}) => {
                 <button
                     type='button'
                     className='btn btn-primario'
+                    onClick = {() => seleccionarTarea(tarea)}
+
                 >
                     Editar
                 </button>
@@ -35,6 +70,7 @@ const Tarea = ({tarea}) => {
                 <button
                     type='button'
                     className='btn btn-secundario'
+                    onClick= { () => tareaEliminar(tarea.id) }
                 >
                     Eliminar
                 </button>

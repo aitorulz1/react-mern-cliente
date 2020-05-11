@@ -9,7 +9,7 @@ const ListadoProyectos = () => {
     const proyectosContext = useContext(proyectoContext);
     const { proyectos, obtenerProyectos } = proyectosContext;
 
-    // Obtener poryectis cuando cargue el componente
+    // Antes de que cargue la página Obtener poryectos cuando cargue el componente
     useEffect(() => {
         obtenerProyectos();
     }, []);
