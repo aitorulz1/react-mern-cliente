@@ -15,7 +15,6 @@ import  {
 
 const TareaState = props => {
 
-
     const initialState = {
         tareas: [
             { id: 1, nombre: 'Elegir Plataforma', estado: true, proyectoId: 1  },
@@ -87,7 +86,7 @@ const TareaState = props => {
      // Extrae una tarea para edicion
      const guardarTareaActual = tarea => {
          dispatch({
-             type: TAREA_ACTUAL ,
+             type: TAREA_ACTUAL,
              payload: tarea
          })
      }

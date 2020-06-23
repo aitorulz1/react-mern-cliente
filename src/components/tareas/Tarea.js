@@ -14,7 +14,9 @@ const Tarea = ({tarea}) => {
     const { eliminarTarea, obtenerTareas, cambiarEstadoTarea, guardarTareaActual } = tareasContext;
 
     const tareaEliminar = id => {
+        // Se elimina el id que le paso de la tarea que selecciono y que coincide con el id del listado de tarea del state
         eliminarTarea(id);
+        // Una vez se elimina, traigo de nuevo todos las tareas que corresponden con el id del proyecto en las que están (que selecciono)
         obtenerTareas( proyectoActual.id);
     }
 
