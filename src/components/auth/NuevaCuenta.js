@@ -1,7 +1,14 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom'
+import React, { useState, useContext } from 'react';
+import { Link } from 'react-router-dom';
+import AlertaContext from '../../context/alertas/alertaContext'
 
 const NuevaCuenta = () => {
+
+    //extraer los calores del alertaContext
+    const alertaContext = useContext(AlertaContext);
+    const { alerta, mostrarAlerta} = alertaContext;
+
+
 
     const [ usuario, guardarUsuario ] = useState({
         nombre:'',
@@ -31,20 +38,20 @@ const NuevaCuenta = () => {
         e.preventDefault();
 
         // Campos vacíos
-        if(email.trim() === '' || password.trim() === ''){
-            guardarError(true);
+        if( nombre.trim() === '' || email.trim() === '' || password.trim() === '' || confirmar.trim() === ''){
+           mostrarAlerta('Todos los campos son obligatorios', 'alerta-error'); // msg y categoria. Ver consola components
             return;
         }
 
-        // Min 6 caracteres
+        // Min 6 caracteres. Esto lo indicamos en routes de servidor, en los check
         if(password.length < 6){
-            guardarError(true);
+            mostrarAlerta('El password debe de ser al menos de 6 caracteres', 'alerta-error'); 
             return;
         }
 
         // Los 3 passwords son iguales
         if(password !== confirmar){
-            guardarError(true);
+            mostrarAlerta('Los password no son iguales', 'alerta-error'); 
             return;            
         }
 
@@ -54,6 +61,9 @@ const NuevaCuenta = () => {
 
     return ( 
         <div className="form-usuario">
+
+    { alerta ? (<div className={`alerta ${alerta.categoria}`}>{alerta.msg}</div>) : null }
+
             <div className="contenedor-form sombre-dark">
 
                 <h1>Inicias Sesión</h1>
