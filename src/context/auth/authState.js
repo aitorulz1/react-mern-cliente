@@ -2,7 +2,10 @@ import React, { useReducer } from 'react';
 import AuthContext from './authContext';
 import AuthReducer from './authReducer';
 
-import clienteAxios from '../../config/axios'
+
+import clienteAxios from '../../config/axios';
+import tokenAuth from '../../config/token'
+
 
 import {
     REGISTRO_EXITOSO,
@@ -36,6 +39,7 @@ const AuthState = props => {
                 type: REGISTRO_EXITOSO,
                 payload: respuesta.data  
             })
+            usuarioAutenticado();
         } catch (error) { // Con response accedo al json al axios y data.msg accede al mensaje de error. Ves que debes insertarlo con error.response
             // console.log(error.response.data.msg);
             const alerta = {
@@ -47,6 +51,31 @@ const AuthState = props => {
                 type: REGISTRO_ERROR,
                 payload: alerta
             })
+        }
+    }
+
+
+    // Devuleve el usuario autenticado
+    const usuarioAutenticado = async() => {
+        const token = localStorage.getItem('token');
+        if(token) {
+            //TODO: Funcinción para enviar el token por headers
+            tokenAuth(token)
+        }
+
+        try {
+            const respuesta = await clienteAxios.get('/api/auth');
+            console.log(respuesta.data);
+            dispatch({
+                type: OBTENER_USUARIO,
+                payload: respuesta.data
+            })   
+        } catch (error) {
+            console.log(error.response);
+            dispatch({
+                type: LOGIN_ERROR
+            })
+            
         }
     }
 
