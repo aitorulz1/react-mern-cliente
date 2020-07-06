@@ -24,6 +24,7 @@ const AuthState = props => {
 
     const [ state, dispatch ] = useReducer(AuthReducer, initialState);
 
+
     // La funciones
 
     const registrarUsuario = async datos => {
@@ -35,11 +36,16 @@ const AuthState = props => {
                 type: REGISTRO_EXITOSO,
                 payload: respuesta.data  
             })
-        } catch (error) {
-            console.log(error);
+        } catch (error) { // Con response accedo al json al axios y data.msg accede al mensaje de error. Ves que debes insertarlo con error.response
+            // console.log(error.response.data.msg);
+            const alerta = {
+                msg: error.response.data.msg,
+                categoria: 'alerta-error'
+            }
 
             dispatch({
-                type: REGISTRO_ERROR
+                type: REGISTRO_ERROR,
+                payload: alerta
             })
         }
     }
