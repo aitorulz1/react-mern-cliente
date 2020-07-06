@@ -1,6 +1,8 @@
-import React, { useReducer } from 'react'
-import AuthContext from './authContext'
-import AuthReducer from './authReducer'
+import React, { useReducer } from 'react';
+import AuthContext from './authContext';
+import AuthReducer from './authReducer';
+
+import clienteAxios from '../../config/axios'
 
 import {
     REGISTRO_EXITOSO,
@@ -9,7 +11,6 @@ import {
     LOGIN_EXITOSO,
     LOGIN_ERROR,
     CERRAR_SESION
-
 } from '../../types';
 
 
@@ -25,6 +26,24 @@ const AuthState = props => {
 
     // La funciones
 
+    const registrarUsuario = async datos => {
+        try {
+            const respuesta = await clienteAxios.post('/api/usuarios', datos);
+            console.log(respuesta.data); // devuelve el token
+
+            dispatch({
+                type: REGISTRO_EXITOSO,
+                payload: respuesta.data  
+            })
+        } catch (error) {
+            console.log(error);
+
+            dispatch({
+                type: REGISTRO_ERROR
+            })
+        }
+    }
+
 
     return(
         <AuthContext.Provider
@@ -32,7 +51,8 @@ const AuthState = props => {
                 token: state.token,
                 autenticado: state.autenticado,
                 usuario: state.usuario,
-                mensaje: state.mensaje
+                mensaje: state.mensaje,
+                registrarUsuario
             }}
         >
             {props.children}
