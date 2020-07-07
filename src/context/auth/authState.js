@@ -68,7 +68,7 @@ const AuthState = props => {
             console.log(respuesta.data);
             dispatch({
                 type: OBTENER_USUARIO,
-                payload: respuesta.data
+                payload: respuesta.data.usuario
             })   
         } catch (error) {
             console.log(error.response);
@@ -80,6 +80,40 @@ const AuthState = props => {
     }
 
 
+    // Cuando el usuario Inicia Sesión
+    const iniciarSesion = async datos => {
+        try {
+            const respuesta = await clienteAxios.post('/api/auth', datos);
+            console.log(respuesta);
+            dispatch({
+                type: LOGIN_EXITOSO,
+                payload: respuesta.data
+            })
+            usuarioAutenticado();
+        } catch (error) {
+            console.log(error.response.data.msg);
+            const alerta = {
+                msg: error.response.data.msg,
+                categoria: 'alerta-error'
+            }
+            dispatch({
+                type: LOGIN_ERROR,
+                payload: alerta
+            })
+            
+        }
+    }
+
+
+
+    // Cerra Sesion
+    const cerrarSesion = () => {
+        dispatch({
+            type: CERRAR_SESION
+        })
+    }
+
+
     return(
         <AuthContext.Provider
             value={{
@@ -87,7 +121,10 @@ const AuthState = props => {
                 autenticado: state.autenticado,
                 usuario: state.usuario,
                 mensaje: state.mensaje,
-                registrarUsuario
+                registrarUsuario,
+                iniciarSesion,
+                usuarioAutenticado,
+                cerrarSesion 
             }}
         >
             {props.children}

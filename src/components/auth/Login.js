@@ -1,7 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom'
+import AlertaContext from '../../context/alertas/alertaContext';
+import AuthContext from '../../context/auth/authContext';
 
-const Login = () => {
+const Login = (props) => {
+
+
+    const alertaContext = useContext(AlertaContext);
+    const { alerta, mostrarAlerta } = alertaContext;
+
+
+    const authContext = useContext(AuthContext);
+    const { mensaje, autenticado, iniciarSesion } = authContext;
 
 
     const [ usuario, guardarUsuario ] = useState({
@@ -11,7 +21,16 @@ const Login = () => {
 
     const { email, password } = usuario;
 
-    const [ error, guardarError ] = useState(false);
+    // En caso de que el usuario o password no exista
+    useEffect(() => {
+        if(autenticado){
+            props.history.push('/proyectos')
+        }
+
+        if(mensaje) {
+            mostrarAlerta(mensaje.msg, mensaje.categoria);
+        }
+    }, [mensaje, autenticado, props.history])
 
     
     // onChange
@@ -28,7 +47,21 @@ const Login = () => {
 
     const onSubmit = e => {
         e.preventDefault();
+    
+
+    // Validar que no haya campos vacíos
+    if(email.trim() === '' || password.trim() === ''){
+        mostrarAlerta('Todos los campos son obligatorios', 'alerta-error')
     }
+
+    // Pasarlo al action
+    iniciarSesion({
+        email,
+        password
+    })
+
+}
+
 
 
     return ( 
@@ -38,7 +71,7 @@ const Login = () => {
 
                 <h1>Inicias Sesión</h1>
 
-                {error ? <p>Debes de rellenar ambos campos</p> : null}
+        { alerta ? (<div className={`alerta ${alerta.categoria}`}> {alerta.msg} </div> ) : null }
 
                 <form
                 
