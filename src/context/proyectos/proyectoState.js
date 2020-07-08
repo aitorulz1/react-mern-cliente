@@ -1,4 +1,5 @@
 import React, { useReducer } from 'react';
+import clienteAxios from '../../config/axios'
 
 // import uuid from 'uuid';
 
@@ -43,22 +44,38 @@ const ProyectoState = props => {
     }
 
     // Obtener los proyectos
-    const obtenerProyectos = () => {
-        dispatch({
-            type: OBTENER_PROYECTOS,
-            payload: proyectos
-        })
+    const obtenerProyectos = async () => {
+        try {
+            const resultado = await clienteAxios.get('/api/proyectos');
+            dispatch({
+                type: OBTENER_PROYECTOS,
+                payload: resultado.data.proyectos
+            })
+        } catch (error) {
+            
+        }
+
+
     }
 
     // Agregar Nuevo Proyectos
-    const agregarProyecto = proyecto => {
+    const agregarProyecto = async proyecto => {
         // proyecto.id = uuid.v4();
 
-        // Inserta el proyecto en el state una vez tengamos el id
-        dispatch({
-            type: AGREGAR_PROYECTO,
-            payload: proyecto
-        })
+        try {
+            const resultado = await clienteAxios.post('/api/proyectos', proyecto);
+            console.log(resultado);
+                    // Inserta el proyecto en el state una vez tengamos el id
+            dispatch({
+                type: AGREGAR_PROYECTO,
+                payload: proyecto
+            })
+        } catch (error) {
+            console.log(error.response);
+
+        }
+
+
     }
 
     // Validar Formulario
@@ -77,11 +94,17 @@ const ProyectoState = props => {
     }
 
     // Eliminar proyecto onclick
-    const eliminarProyecto = proyectoId => {
-        dispatch({
-            type: ELIMINAR_PROYECTO,
-            payload: proyectoId
-        })
+    const eliminarProyecto = async proyectoId => {
+        try {
+            await clienteAxios.delete(`/api/proyectos/${proyectoId}`)
+            dispatch({
+                type: ELIMINAR_PROYECTO,
+                payload: proyectoId
+            })
+        } catch (error) {
+            
+        }
+
     }
 
 
