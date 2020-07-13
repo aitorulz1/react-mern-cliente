@@ -11,11 +11,12 @@ const Tarea = ({tarea}) => {
     const [ proyectoActual ] = proyecto;
 
     const tareasContext = useContext(tareaContext);
-    const { eliminarTarea, obtenerTareas, cambiarEstadoTarea, guardarTareaActual } = tareasContext;
+    // const { eliminarTarea, obtenerTareas, cambiarEstadoTarea, guardarTareaActual } = tareasContext;
+    const { eliminarTarea, obtenerTareas, actualizarTarea, guardarTareaActual } = tareasContext;
 
     const tareaEliminar = id => {
         // Se elimina el id que le paso de la tarea que selecciono y que coincide con el id del listado de tarea del state
-        eliminarTarea(id);
+        eliminarTarea(id, proyectoActual._id);
         // Una vez se elimina, traigo de nuevo todos las tareas que corresponden con el id del proyecto en las que están (que selecciono)
         obtenerTareas( proyectoActual.id);
     }
@@ -26,7 +27,7 @@ const Tarea = ({tarea}) => {
         } else {
             tarea.estado = true;
         }
-        cambiarEstadoTarea(tarea);
+        actualizarTarea(tarea);
     }
 
     const seleccionarTarea = tarea => {
@@ -72,7 +73,7 @@ const Tarea = ({tarea}) => {
                 <button
                     type='button'
                     className='btn btn-secundario'
-                    onClick= { () => tareaEliminar(tarea.id) }
+                    onClick= { () => tareaEliminar(tarea._id) }
                 >
                     Eliminar
                 </button>

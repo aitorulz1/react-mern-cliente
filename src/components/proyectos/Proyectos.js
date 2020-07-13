@@ -6,7 +6,6 @@ import Barra from '../layout/Barra'
 import FormTarea from '../tareas/FormTarea'
 import ListadoTareas from '../tareas/ListadoTareas'
 
-import AlertaContext from '../../context/alertas/alertaContext';
 import AuthContext from '../../context/auth/authContext';
 
 const Proyectos = () => {

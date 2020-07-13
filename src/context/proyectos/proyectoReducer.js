@@ -5,7 +5,8 @@ import {
     AGREGAR_PROYECTO,  
     VALIDAR_FORMULARIO,
     PROYECTO_ACTUAL,
-    ELIMINAR_PROYECTO
+    ELIMINAR_PROYECTO,
+    PROYECTO_ERROR
 } from '../../types'
 
 
@@ -43,6 +44,11 @@ export default (state, action) => {
             return{
                 ...state,
                 proyectos: state.proyectos.filter(proyecto => proyecto._id !== action.payload)
+            }
+        case PROYECTO_ERROR:
+            return {
+                ...state,
+                mensaje: action.payload
             }
 
         default:

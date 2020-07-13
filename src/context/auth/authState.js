@@ -20,7 +20,7 @@ import {
 const AuthState = props => {
     const initialState = {
         token: localStorage.getItem('token'),
-        autenticado: null,
+        autenticado: false,
         usuario: null,
         mensaje: null,
         cargando: true
@@ -57,16 +57,15 @@ const AuthState = props => {
 
 
     // Devuleve el usuario autenticado
-    const usuarioAutenticado = async() => {
+    const usuarioAutenticado = async () => {
         const token = localStorage.getItem('token');
         if(token) {
-            //TODO: Funcinción para enviar el token por headers
-            tokenAuth(token)
+            tokenAuth(token);
         }
 
         try {
             const respuesta = await clienteAxios.get('/api/auth');
-            console.log(respuesta.data);
+            // console.log(respuesta.data);
             dispatch({
                 type: OBTENER_USUARIO,
                 payload: respuesta.data.usuario
@@ -89,7 +88,9 @@ const AuthState = props => {
             dispatch({
                 type: LOGIN_EXITOSO,
                 payload: respuesta.data
-            })
+            });
+
+            //obtener el suario
             usuarioAutenticado();
         } catch (error) {
             console.log(error.response.data.msg);
